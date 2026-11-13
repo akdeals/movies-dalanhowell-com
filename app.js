@@ -12,6 +12,34 @@
   const resultTitle = document.getElementById("resultTitle");
   const helperText = document.getElementById("helperText");
   const movieList = document.getElementById("movieList");
+  const themeToggle = document.getElementById("themeToggle");
+  const themeStorageKey = "movie-night-theme";
+
+  function applyTheme(theme, save = false) {
+    const isLight = theme === "light";
+    document.documentElement.dataset.theme = isLight ? "light" : "dark";
+    themeToggle.textContent = isLight ? "Use dark theme" : "Use light theme";
+    themeToggle.setAttribute("aria-pressed", String(isLight));
+
+    if (save) {
+      try {
+        window.localStorage.setItem(themeStorageKey, isLight ? "light" : "dark");
+      } catch (error) {
+        console.warn("Your theme preference could not be saved.", error);
+      }
+    }
+  }
+
+  let savedTheme = "dark";
+  try {
+    savedTheme = window.localStorage.getItem(themeStorageKey) || "dark";
+  } catch (error) {
+    console.warn("Your saved theme preference could not be read.", error);
+  }
+  applyTheme(savedTheme);
+  themeToggle.addEventListener("click", () => {
+    applyTheme(document.documentElement.dataset.theme === "light" ? "dark" : "light", true);
+  });
 
   const colors = [
     "#e55f47", "#273a57", "#d89a43", "#315b5b", "#8d4e68", "#59638a", "#c96d43",
