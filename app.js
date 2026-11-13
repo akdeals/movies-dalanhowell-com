@@ -15,6 +15,7 @@
   const themeToggle = document.getElementById("themeToggle");
   const themeStorageKey = "movie-night-theme";
 
+  // Apply the saved appearance locally; the theme does not affect the shared wheel state.
   function applyTheme(theme, save = false) {
     const isLight = theme === "light";
     document.documentElement.dataset.theme = isLight ? "light" : "dark";
@@ -41,6 +42,7 @@
     applyTheme(document.documentElement.dataset.theme === "light" ? "dark" : "light", true);
   });
 
+  // Slice colors repeat when the movie list contains more entries than this palette.
   const colors = [
     "#e55f47", "#273a57", "#d89a43", "#315b5b", "#8d4e68", "#59638a", "#c96d43",
     "#286e72", "#ad6f38", "#554b7c", "#b54949", "#376174", "#c58b3f", "#6e4e68"
@@ -102,6 +104,7 @@
   }
 
   function syncClock(payload, requestStartedAt, responseReceivedAt) {
+    // Use the request midpoint to reduce timing error from network latency.
     const midpoint = requestStartedAt + (responseReceivedAt - requestStartedAt) / 2;
     const measuredOffset = Number(payload.serverTimeMs) - midpoint;
     serverOffsetMs = hasClockSync
@@ -111,6 +114,7 @@
   }
 
   function renderMovieList(selectedIndex = null, force = false) {
+    // Avoid rebuilding the list on every animation frame unless its selection changed.
     const selectionKey = selectedIndex === null ? -1 : Number(selectedIndex);
     if (!force && selectionKey === lastListSelection) return;
 
@@ -135,6 +139,7 @@
   }
 
   function drawWheel(rotationDegrees, selectedIndex = null) {
+    // Scale the canvas for high-density displays while keeping drawing in CSS pixels.
     const cssSize = Math.floor(Math.min(canvas.clientWidth, canvas.clientHeight));
     if (!cssSize || movies.length === 0) return;
 
@@ -233,6 +238,7 @@
   }
 
   function renderFrame() {
+    // Every browser derives the same wheel animation from the server's shared timestamps.
     cancelAnimationFrame(frameId);
     frameId = 0;
 
@@ -295,6 +301,7 @@
   }
 
   function applyPayload(payload, requestStartedAt, responseReceivedAt) {
+    // Update the local view from the server snapshot and keep its clock aligned.
     syncClock(payload, requestStartedAt, responseReceivedAt);
 
     if (!Array.isArray(payload.movies) || !payload.state) {
@@ -314,6 +321,7 @@
   }
 
   async function requestState(options = {}) {
+    // Polling and spin requests use the same endpoint and response handling.
     const requestStartedAt = Date.now();
     const response = await fetch(`api.php?t=${requestStartedAt}`, {
       cache: "no-store",
@@ -331,6 +339,7 @@
   }
 
   async function poll() {
+    // Keep retrying so a temporary connection loss does not require a page reload.
     try {
       await requestState();
     } catch (error) {
@@ -343,6 +352,7 @@
   }
 
   async function spin() {
+    // The server chooses the winner so every connected browser receives the same spin.
     if (spinButton.disabled) return;
     isSubmitting = true;
     updateButton();

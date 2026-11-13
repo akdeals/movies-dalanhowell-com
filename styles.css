@@ -12,6 +12,7 @@
   font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
+/* The theme toggle switches these shared colors without changing layout rules. */
 :root[data-theme="light"] {
   color-scheme: light;
   --bg: #f3f0e9;
@@ -42,6 +43,7 @@ body {
     linear-gradient(150deg, #0c0e14 0%, #080a0f 55%, #0d0b0d 100%);
 }
 
+/* Keep the background atmosphere consistent with the selected color scheme. */
 :root[data-theme="light"] body {
   background:
     radial-gradient(circle at 50% 0%, rgba(255, 179, 71, 0.2), transparent 42rem),
@@ -52,6 +54,7 @@ body {
   background: rgba(30, 35, 45, 0.045);
 }
 
+/* Header controls stay grouped together at desktop and mobile widths. */
 .header-actions {
   display: flex;
   align-items: center;
@@ -177,6 +180,7 @@ body::before {
   box-shadow: 0 0 0 4px rgba(255, 108, 108, 0.12);
 }
 
+/* The hero pairs the text controls with the wheel; narrow screens stack them. */
 .hero {
   display: grid;
   grid-template-columns: minmax(300px, 0.78fr) minmax(460px, 1.22fr);
@@ -407,6 +411,7 @@ code {
   letter-spacing: 0.11em;
 }
 
+/* The movie list is separate from the canvas so choices remain readable. */
 .movie-section {
   display: grid;
   grid-template-columns: 0.56fr 1.44fr;
@@ -508,6 +513,7 @@ noscript {
   100% { transform: scale(1); opacity: 1; }
 }
 
+/* Collapse the two-column sections before their contents become cramped. */
 @media (max-width: 900px) {
   .hero {
     grid-template-columns: 1fr;
@@ -605,6 +611,7 @@ noscript {
   }
 }
 
+/* Respect system accessibility settings for motion-sensitive visitors. */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
