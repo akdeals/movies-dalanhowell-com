@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b0d13">
+  <meta name="description" content="A synchronized movie picker for movie night.">
+  <title>Movie Night Wheel</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="ambient ambient-one" aria-hidden="true"></div>
+  <div class="ambient ambient-two" aria-hidden="true"></div>
+
+  <main class="page-shell">
+    <header class="site-header">
+      <a class="brand" href="./" aria-label="Movie Night Wheel home">
+        <span class="brand-mark" aria-hidden="true">▶</span>
+        <span>Movie Night</span>
+      </a>
+      <div class="sync-pill" id="syncPill" role="status">
+        <span class="sync-dot" aria-hidden="true"></span>
+        <span id="syncText">Connecting…</span>
+      </div>
+    </header>
+
+    <section class="hero" aria-labelledby="pageTitle">
+      <div class="intro">
+        <p class="eyebrow">Tonight's feature</p>
+        <h1 id="pageTitle">Let the wheel<br><em>pick the movie.</em></h1>
+        <p class="lede">One click, one shared spin. Everyone watching this page sees the same wheel and the same winner.</p>
+
+        <div class="result-card" id="resultCard" aria-live="polite" aria-atomic="true">
+          <p class="result-label" id="resultLabel">Ready when you are</p>
+          <p class="result-title" id="resultTitle">Spin for movie night</p>
+        </div>
+
+        <button class="spin-button" id="spinButton" type="button" disabled>
+          <span class="button-icon" aria-hidden="true">↻</span>
+          <span id="spinButtonText">Connecting…</span>
+        </button>
+        <p class="helper-text" id="helperText">The movie list is loaded from <code>movies.csv</code>.</p>
+      </div>
+
+      <div class="wheel-stage" id="wheelStage">
+        <div class="pointer" aria-hidden="true"></div>
+        <div class="wheel-frame">
+          <canvas id="wheelCanvas" role="img" aria-label="Wheel containing the movie choices"></canvas>
+          <div class="wheel-hub" aria-hidden="true">
+            <span>PLAY</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="movie-section" aria-labelledby="movieListTitle">
+      <div>
+        <p class="eyebrow">The lineup</p>
+        <h2 id="movieListTitle">Movies on the wheel</h2>
+      </div>
+      <ol class="movie-list" id="movieList"></ol>
+    </section>
+
+    <footer>
+      <span>movies.dalanhowell.com</span>
+      <span>Synced for everyone in the room</span>
+    </footer>
+  </main>
+
+  <noscript>This site needs JavaScript enabled to spin and synchronize the wheel.</noscript>
+  <script src="app.js" defer></script>
+</body>
+</html>
